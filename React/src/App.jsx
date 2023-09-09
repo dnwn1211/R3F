@@ -4,7 +4,7 @@ import MyElement3D from './MyElement3D';
 
 function App() {
   return (
-    <Canvas> {/* Canvas 엘리먼트로 수정 */}
+    <Canvas camera={{near:3.5, far:6}}> {/* Canvas 엘리먼트로 수정 */}
       <MyElement3D />
     </Canvas>
   );
