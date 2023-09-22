@@ -1,75 +1,57 @@
-import { OrbitControls, useTexture } from '@react-three/drei';
-import { useRef, useEffect } from "react"
-import * as THREE from "three"
+import { Environment, OrbitControls, useGLTF, useAnimations } from '@react-three/drei';
+import { useControls } from "leva"
+import { useEffect, useState } from "react"
 
-function MyElement3D() {
-    const textures = useTexture({
-        map: "./images/glass/Glass_Window_002_basecolor.jpg",
-        roughnessMap: "./images/glass/Glass_Window_002_roughness.jpg",
-        // metalnessMap: "./images/galss/Glass_Window_002_metallic.jpg"
-        normalMap: "./images/glass/Glass_Window_002_normal.jpg",
-        displacementMap: "./images/glass/Glass_Window_002_height.png",
-        aoMap: "./images/glass/Glass_Window_002_ambientOcclusion.jpg",
-        alphaMap: "./images/glass/Glass_Window_002_opacity.jpg",
+function MyElement3D(){
+
+    const model = useGLTF("./model/model.glb")
+    const animations = useAnimations(model.animations, model.scene)
+    const { actionName } = useControls({
+        actionName:{
+            value: animations.names[1],
+            options: animations.names
+        }
     })
 
-    const mesh= useRef()
+    useEffect(()=>{
+        const action = animations.actions[actionName]
+        action.reset().fadeIn(0.5).play()
+
+        return ()=>{
+            action.fadeOut(0.5)
+        }
+    }, [actionName])
+
+    const [ height, setHeight] = useState(0)
 
     useEffect(()=>{
-        textures.map.repeat.x=textures.displacementMap.repeat.x=
-        textures.aoMap.repeat.x=textures.roughnessMap.repeat.x=
-        textures.normalMap.repeat.x=textures.alphaMap.repeat.x=4
+        let minY=Infinity, maxY=-Infinity
 
-        textures.map.wrapS=textures.displacementMap.wrapS=
-        textures.aoMap.wrapS=textures.roughnessMap.wrapS=
-        textures.normalMap.wrapS=textures.alphaMap.wrapS=
-        THREE.MirroredRepeatWrapping
+        model.scene.traverse((item)=>{
+            if(item.isMesh){
+                const geomBbox= item.geometry.boundingBox
+                if(minY> geomBbox.min.y) minY=geomBbox.min.y
+                if(maxY<geomBbox.max.y) maxY=geomBbox.max.y
+            }
+        })
 
-        textures.map.needsUpdate=textures.displacementMap.needsUpdate=
-        textures.aoMap.needsUpdate=textures.roughnessMap.needsUpdate=
-        textures.normalMap.needsUpdate=textures.alphaMap.needsUpdate=
-        true
+        const h = maxY-minY
+        setHeight(h)
+        console.log(h)
+    }, [model.scene])
 
-        mesh.current.geometry.setAttribute("uv2", 
-            new THREE.BufferAttribute(mesh.current.geometry.attributes.uv.array,2)
-        )
-    }, [])
-
-    return (
+    return(
         <>
-            <OrbitControls />
-            
-            <ambientLight intensity={0.1} />
-            <directionalLight position={[0, 1, -8]} intensity={0.4}/>
-            <directionalLight position={[1, 2, 8]} intensity={0.4} />
+            <OrbitControls/>
 
-            <mesh ref={mesh}>
-                <cylinderGeometry args={[2, 2, 3, 256, 256, true]} />
-                <meshStandardMaterial
+            <Environment preset="sunset"/>
 
-                side={THREE.DoubleSide}
-                map={textures.map}
-                roughnessMap={textures.roughnessMap}
-                roughnessMap-colorSpace={THREE.NoColorSpace}
-                // metalnessMap={textures.metalnessMap}
-                metalness={0.5}
-
-                normalMap={textures.normalMap}
-                normalMap-colorSpace={THREE.NoColorSpace}
-                normalScale={1}
-
-                displacementMap={textures.displacementMap}
-                displacementMap-colorSpace={THREE.NoColorSpace}
-
-                aoMap={textures.aoMap}
-
-                alphaMap={textures.alphaMap}
-                transparent
-                alphaToCoverage
-                />
-            </mesh>
+            <primitive 
+            scale={5}
+            position-y={-(height/2)*5} 
+            object={model.scene}/>
         </>
-    );
+    )
 }
 
-export default MyElement3D;
+export default MyElement3D
