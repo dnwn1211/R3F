@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 function MyElement3D(){
 
-    const model = useGLTF("./model/model.glb")
+    const model = useGLTF("./model/6.glb")
     const animations = useAnimations(model.animations, model.scene)
     const { actionName } = useControls({
         actionName:{
@@ -18,7 +18,7 @@ function MyElement3D(){
         action.reset().fadeIn(0.5).play()
 
         return ()=>{
-            action.fadeOut(0.5)
+            action.fadeOut(1)
         }
     }, [actionName])
 
@@ -42,12 +42,12 @@ function MyElement3D(){
 
     return(
         <>
-            <OrbitControls/>
+            {/* <OrbitControls/> */}
 
             <Environment preset="sunset"/>
 
             <primitive 
-            scale={5}
+            scale={4}
             position-y={-(height/2)*5} 
             object={model.scene}/>
         </>
