@@ -39,43 +39,38 @@ function App() {
       <Canvas camera={{near: 1,far: 100, position : [5,0,7]}}>
         <MyElement3D />
       </Canvas>
-      <container>
-        <div class="row">
-          <div class="col-md-4">
+      <container class='card-container'>
+        <div className="row d-flex justify-content-center">
+          <div style={{width:'30%'}}>
             <Card class="small-card">
               <Card.Img variant="top" src="/images/contentImg1.png" />
               <Card.Body>
                 <Card.Title>Coming Soon</Card.Title>
-                <Card.Text>
-                  
-                </Card.Text>
+                <Card.Text></Card.Text>
               </Card.Body>
             </Card>
           </div>
-          <div class="col-md-4">
+          <div style={{width:'30%'}}>
             <Card class="small-card">
               <Card.Img variant="top" src="/images/contentImg2.png" />
               <Card.Body>
                 <Card.Title>Zombie</Card.Title>
-                <Card.Text>
-                  Zombie Apocalypse
-                </Card.Text>
+                <Card.Text>Zombie Apocalypse</Card.Text>
               </Card.Body>
             </Card>
           </div>
-          <div class="col-md-4">
+          <div style={{width:'30%'}}>
             <Card class="small-card">
               <Card.Img variant="top" src="/images/contentImg3.png" />
               <Card.Body>
                 <Card.Title>Coming Soon</Card.Title>
-                <Card.Text>
-                
-                </Card.Text>
+                <Card.Text></Card.Text>
               </Card.Body>
             </Card>
           </div>
         </div>
       </container>
+
 
     </>
   );
