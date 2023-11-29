@@ -16,7 +16,7 @@ body{
   align-items: right;
 }
 .small-card{
-  width: 50%;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -24,4 +24,15 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.footer{
+  margin: 0;
+  padding: 0;
+  height: 20vw;
+  background-color: black;
+}
+.footer-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

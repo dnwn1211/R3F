@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 function MyElement3D(){
 
-    const model = useGLTF("./model/6.glb")
+    const model = useGLTF("./model/zrun.glb")
     const animations = useAnimations(model.animations, model.scene)
     const { actionName } = useControls({
         actionName:{
@@ -13,14 +13,21 @@ function MyElement3D(){
         }
     })
 
-    useEffect(()=>{
-        const action = animations.actions[actionName]
-        action.reset().fadeIn(0.5).play()
-
-        return ()=>{
-            action.fadeOut(1)
+    useEffect(() => {
+        const action = animations.actions[actionName];
+        if (action) {
+            // Check if action exists before using it
+            const mixer = animations.mixer;
+            action.reset().fadeIn(0.5).play();
+    
+            return () => {
+                action.fadeOut(1);
+            };
+        } else {
+            console.error(`Animation action "${actionName}" not found.`);
         }
-    }, [actionName])
+    }, [actionName, animations.actions, animations.mixer]);
+    
 
     const [ height, setHeight] = useState(0)
 

@@ -4,14 +4,14 @@ import MyElement3D from './MyElement3D';
 import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Container } from 'react-bootstrap';
+
+// import Footer from './com/footer';
 
 <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" crossorigin></script>
 
 function App() {
 
-  
   return (
     <>
       <Nav className='main_nav_bar' activeKey="/home" onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}>
@@ -39,10 +39,13 @@ function App() {
       <Canvas camera={{near: 1,far: 100, position : [5,0,7]}}>
         <MyElement3D />
       </Canvas>
-      <container class='card-container'>
+      <Container className='card-container'>
+        <div>
+          Game select
+        </div>
         <div className="row d-flex justify-content-center">
           <div style={{width:'30%'}}>
-            <Card class="small-card">
+            <Card className="small-card">
               <Card.Img variant="top" src="/images/contentImg1.png" />
               <Card.Body>
                 <Card.Title>Coming Soon</Card.Title>
@@ -51,7 +54,7 @@ function App() {
             </Card>
           </div>
           <div style={{width:'30%'}}>
-            <Card class="small-card">
+            <Card className="small-card">
               <Card.Img variant="top" src="/images/contentImg2.png" />
               <Card.Body>
                 <Card.Title>Zombie</Card.Title>
@@ -60,7 +63,7 @@ function App() {
             </Card>
           </div>
           <div style={{width:'30%'}}>
-            <Card class="small-card">
+            <Card className="small-card">
               <Card.Img variant="top" src="/images/contentImg3.png" />
               <Card.Body>
                 <Card.Title>Coming Soon</Card.Title>
@@ -69,9 +72,27 @@ function App() {
             </Card>
           </div>
         </div>
-      </container>
-
-
+      </Container>
+      {/* <Footer/> */}
+      <Container className='footer'>
+        <div style={{textAlign: 'center', color:'white'}}>
+          <img src='/images/BlackLogo.png' style={{width:'11vw',height: '10vw'}}/>
+          <Container className='footer-content'>
+            <div>
+              <p style={{fontWeight:'bolder'}}>기획, 디자인</p>
+              mikyholee@naver.com
+            </div>
+            <div>
+              <p style={{fontWeight:'bolder'}}>개발자</p>
+              github.com/dwisgolmog
+            </div>
+            <div>
+              <p style={{fontWeight:'bolder'}}>개발자</p>
+              github.com/dnwn1211
+            </div>
+          </Container>
+        </div>
+      </Container>
     </>
   );
 }
